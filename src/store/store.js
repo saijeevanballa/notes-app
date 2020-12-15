@@ -1,0 +1,21 @@
+// import for redux
+import { createStore } from "redux";
+
+// import for redux persist
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+import rootReducer from "./reducers/listReducer";
+
+// Persist Store Configuration
+const persistConfig = {
+	key: "root",
+	storage,
+	whitelist: ["list"]
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = createStore(persistedReducer);
+
+export const persistor = persistStore(store);
