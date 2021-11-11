@@ -34,6 +34,6 @@ export default function NotesList(props) {
 					))}
 				</tbody>
 			</table>
-		</div>
+		</div >
 	);
 }

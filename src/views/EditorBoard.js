@@ -3,35 +3,19 @@ import { connect } from "react-redux";
 import NotesEditor from "../components/NoteInput";
 import { SAVE, EDIT } from "../store/types/editorBoard";
 import { withRouter } from "react-router-dom";
-
-const intialContent = {
-	entityMap: {},
-	blocks: [
-		{
-			key: "",
-			text: " Edit Your Notes..",
-			type: "unstyled",
-			depth: 0,
-			inlineStyleRanges: [],
-			entityRanges: [],
-			data: {}
-		}
-	]
-};
+import { EditorState } from "draft-js";
 
 class EditorBoard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: props.name || `untitled-${new Date().getTime()}`,
-			content:
-				props.content ||
-				(props.location.state && props.location.state.content) ||
-				intialContent
+			name: props.name || props?.location?.state?.name || `untitled-${new Date().getTime()}`,
+			content: props.content || props?.location?.state?.content || ""
 		};
 	}
 
 	handleName = (e) => {
+		debugger
 		this.setState({ name: e.target.value });
 	};
 
@@ -48,18 +32,8 @@ class EditorBoard extends Component {
 		this.props.history.push("/");
 	};
 
-	// componentWillMount = () => {
-	// 	if (this.props.match.params.id) {
-	// 		let data = this.props.list.find(
-	// 			(obj) => obj.id === this.props.match.params.id
-	// 		);
-	// 		console.log(data);
-	// 		this.state = data;
-	// 	}
-	// 	console.log("props==>", this.props, "state===>", this.state);
-	// };
-
 	render() {
+		console.log(this.state)
 		return (
 			<div className="m-2">
 				<div className="m-2 d-flex flex-row justify-content-between">

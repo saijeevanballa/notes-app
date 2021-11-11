@@ -4,7 +4,7 @@ export default function NavBar() {
 	return (
 		<nav className="navbar sticky-top navbar-dark bg-primary">
 			<a className="navbar-brand" href="/">
-				Notes
+				Quick Notes
 			</a>
 		</nav>
 	);

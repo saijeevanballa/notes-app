@@ -1,30 +1,42 @@
 import React, { useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
-import { convertFromRaw } from "draft-js";
+import { convertToRaw, EditorState, convertFromHTML, ContentState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export default function NotesEditor(props) {
 	const [hidden, setHidden] = useState(false);
-	let onContentStateChange = async (contentState) => {
-		let data = convertFromRaw(contentState);
-		let { entityMap, blockMap } = data.toJSON();
-		props.handleContent({
-			entityMap,
-			blocks: Object.keys(blockMap).map((KEY) => blockMap[KEY])
-		});
+	const [editorState, setEditorState] = useState(
+		props.content ? getHtmlToEditorState(props.content) : EditorState.createEmpty()
+	);
+
+	let onEditorStateChange = editorState => {
+		let editorContent = formatContent(editorState);
+		props.handleContent(editorContent);
+		setEditorState(editorState);
 	};
 
 	return (
 		<Editor
-			defaultContentState={formatContent(props.content)}
+			editorState={editorState}
 			toolbarStyle={{ border: "1px solid", borderRadius: 10 }}
 			editorStyle={{ border: "1px solid", minHeight: "85vh", borderRadius: 10 }}
-			onContentStateChange={onContentStateChange}
+			onEditorStateChange={onEditorStateChange}
 			toolbarHidden={hidden}
 		/>
 	);
 }
 
+let getHtmlToEditorState = html => {
+	const blocksFromHTML = convertFromHTML(html)
+	const content = ContentState.createFromBlockArray(blocksFromHTML)
+	return EditorState.createWithContent(content)
+}
+
 function formatContent(value) {
-	return value;
+	let valuetext = value.getCurrentContent()
+	let convertText = convertToRaw(valuetext);
+	let html = draftToHtml(convertText);
+	return html
 }
