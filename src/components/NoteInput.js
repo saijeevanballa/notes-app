@@ -6,7 +6,6 @@ import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export default function NotesEditor(props) {
-	const [hidden, setHidden] = useState(false);
 	const [editorState, setEditorState] = useState(
 		props.content ? getHtmlToEditorState(props.content) : EditorState.createEmpty()
 	);
@@ -21,9 +20,9 @@ export default function NotesEditor(props) {
 		<Editor
 			editorState={editorState}
 			toolbarStyle={{ border: "1px solid", borderRadius: 10 }}
-			editorStyle={{ border: "1px solid", minHeight: "85vh", borderRadius: 10 }}
+			editorStyle={{ border: "1px solid", minHeight: "80vh", borderRadius: 10 }}
 			onEditorStateChange={onEditorStateChange}
-			toolbarHidden={hidden}
+			toolbarHidden={props.toolBarHidden}
 		/>
 	);
 }

@@ -16,10 +16,13 @@ function DashBoard(props) {
 				style={{
 					borderRadius: 5,
 					position: "relative",
-					left: "85%",
+					left: "80%",
 					margin: 5
 				}}>
-				create
+				<img style={{
+					width: 24,
+					height: 24
+				}} src="https://img.icons8.com/color/48/000000/add-file.png"></img> Create Document
 			</button>
 			<NotesList list={props.list} deleteNotes={props.deleteNotes} />;
 		</>
